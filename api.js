@@ -1,101 +1,63 @@
-const express = require("express")
-const app = express()
-const bodyP = require("body-parser")
-const compiler = require("compilex")
-const options = { stats: true }
-compiler.init(options)
-app.use(bodyP.json())
-app.use("/codemirror/codemirror-5.65.17", express.static("E:/Festival_2024/codemirror/codemirror-5.65.17"))
+const express = require("express");
+const bodyP = require("body-parser");
+const axios = require("axios");
+
+const app = express();
+const port = 3000;
+
+app.use(bodyP.json());
+
+// Serve your CodeMirror and static files
+app.use("/codemirror/codemirror-5.65.17", express.static("E:/Festival_2024/codemirror/codemirror-5.65.17"));
+
 app.get("/", function (req, res) {
-    compiler.flush(function () {
-        console.log("deleted")
-    })
-    res.sendFile("E:/Festival_2024/index.html")
-})
-app.post("/compile", function (req, res) {
-    var code = req.body.code
-    var input = req.body.input
-    var lang = req.body.lang
+    res.sendFile("E:/Festival_2024/index.html");
+});
+
+// Route to compile and execute code using the Piston API
+app.post("/compile", async function (req, res) {
+    const { code, input, lang } = req.body;
+
+    // Map the language from your UI to the Piston API supported languages
+    const languageMap = {
+        "Cpp": "cpp",
+        "Java": "java",
+        "Python": "python3"
+    };
+
+    const selectedLanguage = languageMap[lang];
+
+    if (!selectedLanguage) {
+        return res.status(400).json({ error: "Unsupported language" });
+    }
+
+    // Piston API request payload
+    const payload = {
+        language: selectedLanguage,
+        version: "*", // Use the latest available version for the language
+        files: [
+            {
+                name: `main.${selectedLanguage === 'cpp' ? 'cpp' : selectedLanguage}`,
+                content: code
+            }
+        ],
+        stdin: input || "" // Input for the program, empty if not provided
+    };
+
     try {
+        // Make POST request to Piston API
+        const response = await axios.post("https://emkc.org/api/v2/piston/execute", payload);
 
-        if (lang == "Cpp") {
-            if (!input) {
-                var envData = { OS: "windows", cmd: "g++", options: { timeout: 10000 } }; // (uses g++ command to compile )
-                compiler.compileCPP(envData, code, function (data) {
-                    if (data.output) {
-                        res.send(data);
-                    }
-                    else {
-                        res.send({ output: "error" })
-                    }
-                });
-            }
-            else {
-                var envData = { OS: "windows", cmd: "g++", options: { timeout: 10000 } }; // (uses g++ command to compile )
-                compiler.compileCPPWithInput(envData, code, input, function (data) {
-                    if (data.output) {
-                        res.send(data);
-                    }
-                    else {
-                        res.send({ output: "error" })
-                    }
-                });
-            }
-        }
-        else if (lang == "Java") {
-            if (!input) {
-                var envData = { OS: "windows" };
-                compiler.compileJava(envData, code, function (data) {
-                    if (data.output) {
-                        res.send(data);
-                    }
-                    else {
-                        res.send({ output: "error" })
-                    }
-                })
-            }
-            else {
-                //if windows  
-                var envData = { OS: "windows" };
-                //else
-                compiler.compileJavaWithInput(envData, code, input, function (data) {
-                    if (data.output) {
-                        res.send(data);
-                    }
-                    else {
-                        res.send({ output: "error" })
-                    }
-                })
-            }
-        }
-        else if (lang == "Python") {
-            if (!input) {
-                var envData = { OS: "windows" };
-                compiler.compilePython(envData, code, function (data) {
-                    if (data.output) {
-                        res.send(data);
-                    }
-                    else {
-                        res.send({ output: "error" })
-                    }
-                });
-            }
-            else {
-                var envData = { OS: "windows" };
-                compiler.compilePythonWithInput(envData, code, input, function (data) {
-                    if (data.output) {
-                        res.send(data);
-                    }
-                    else {
-                        res.send({ output: "error" })
-                    }
-                });
-            }
-        }
+        // Send back the output (stdout or stderr)
+        const output = response.data.run.stdout || response.data.run.stderr;
+        res.json({ output });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Failed to compile and run the code" });
     }
-    catch (e) {
-        console.log("error")
-    }
-})
+});
 
-app.listen(3000)
+// Start the server
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+});

@@ -4,9 +4,13 @@
   /* Set height, width, borders, and global font properties here */
   font-family: monospace;
   height: 300px;
-  color: black;
+  color: #111212;
   direction: ltr;
+   
 }
+/* Targeting the main CodeMirror container */
+
+
 
 /* PADDING */
 

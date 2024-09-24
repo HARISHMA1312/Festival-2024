@@ -1,433 +1,466 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 
-<html lang="en"> 
+<html lang="en">
 
- 
 
-<head> 
 
-    <meta charset="UTF-8"> 
+<head>
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>CodePlayGround</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"> 
+    <title>Snippet Lab</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="codemirror/codemirror-5.65.17/lib/codemirror.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="codemirror/codemirror-5.65.17/lib/codemirror.js"></script> 
+    <link rel="stylesheet" href="codemirror/codemirror-5.65.17/lib/codemirror.css">
 
-    <script src="codemirror/codemirror-5.65.17/mode/clike/clike.js"></script> 
+    <script src="codemirror/codemirror-5.65.17/lib/codemirror.js"></script>
 
-    <script src="codemirror/codemirror-5.65.17/mode/python/python.js"></script> 
+    <script src="codemirror/codemirror-5.65.17/mode/clike/clike.js"></script>
 
-    <link rel="stylesheet" href="codemirror/codemirror-5.65.17/theme/dracula.css"> 
+    <script src="codemirror/codemirror-5.65.17/mode/python/python.js"></script>
 
-    <link rel="stylesheet" href="codemirror/codemirror-5.65.17/theme/eclipse.css"> 
+    <link rel="stylesheet" href="codemirror/codemirror-5.65.17/theme/dracula.css">
 
-    <link rel="stylesheet" href="codemirror/codemirror-5.65.17/theme/material.css"> 
+    <link rel="stylesheet" href="codemirror/codemirror-5.65.17/theme/eclipse.css">
 
-    <link rel="stylesheet" href="codemirror/codemirror-5.65.17/theme/monokai.css"> 
+    <link rel="stylesheet" href="codemirror/codemirror-5.65.17/theme/material.css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> 
+    <link rel="stylesheet" href="codemirror/codemirror-5.65.17/theme/monokai.css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
- 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-    <style> 
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: rgb(79, 77, 77);
+            margin: 0;
+            padding: 0;
+        }
 
-        /* Playful Footer Styles */ 
+        .navbar {
+            background: linear-gradient(90deg, #C5C6C7);
+            padding: 15px 20px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+        }
 
-        footer { 
+        .navbar h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #0b0b0b;
+        }
 
-            background-color: #171716; 
+        .navbar a {
+            color: #0b0b0b;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 10px;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
 
-            color: #333; 
+        .navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-            text-align: center; 
+        #share {
 
-            padding: 10px 0; 
+            color: #171717;
+            /* Adjust text color as needed */
+            background-color: #FFFFFF;
+            /* Initial button color */
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
 
-            font-family: 'Comic Sans MS', cursive, sans-serif; 
+        #share:hover {
+            background-color: rgba(36, 253, 79, 0.801);
+            box-shadow: 0 4px 6px rgba(36, 253, 79, 0.6);
+        }
 
-            position: fixed; 
+        .styled {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #FFFFFF;
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 10px;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: background-color 0.3s, box-shadow 0.3s;
 
-            bottom: 0; 
+        }
 
-            width: 100%; 
+        
 
-            animation: fadeIn 2s ease-in-out; 
 
-        } 
 
- 
+        .btn_btn-success {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 10px 15px;
+            font-size: 15px;
+            color: #0e0f0fba;
+            background-color: #FFFFFF;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
 
-        /* Animation for the "CodePlayGround" text */ 
+            text-decoration: none;
 
-        .footer-text { 
+            margin: 0 10px;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: background-color 0.3s, box-shadow 0.3s;
 
-            font-size: 2rem; 
+        }
 
-            font-weight: bold; 
+        .btn_btn-success:hover {
+            background-color: rgba(36, 253, 79, 0.801);
+            box-shadow: 0 4px 6px rgba(36, 253, 79, 0.6);
+        }
 
-            color: #ff4081; 
+        .custom-color {
+            background-color:  #282a36;
+            /* Your desired background color */
+        }
+        .form-select {
+    border-radius: 0.5rem; /* Rounded borders */
+    backdrop-filter: blur(10px); /* Blur effect */
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+    transition: background-color 0.3s, border-color 0.3s; /* Smooth transition */
+}
 
-            animation: animateText 3s linear infinite; 
+.form-select:hover,
+.form-select:focus {
+    background-color: rgba(255, 255, 255, 1); /* Full opacity on hover/focus */
+    border-color: #007bff; /* Change border color on hover/focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add shadow effect */
+}
 
-        } 
 
- 
 
-        @keyframes animateText { 
+        
+    </style>
 
-            0% { 
 
-                color: #ff4081; 
 
-            } 
+</head>
 
-            25% { 
 
-                color: #ff5722; 
 
-            } 
+<body>
+    <div class="navbar">
+        <div class="d-flex align-items-center">
+            <img src="images/logo.png" alt="Logo" style="height: 50px; margin-right: 10px;" />
+            <h1>SnippetLab</h1>
+        </div>
+        <div>
+            <a href="#">Home</a>
+            <a href="#">Sign in</a>
+            <a href="#">Sign up</a>
+            <a href="#">Login</a>
+        </div>
+    </div>
 
-            50% { 
 
-                color: #00bcd4; 
 
-            } 
 
-            75% { 
 
-                color: #8bc34a; 
 
-            } 
 
-            100% { 
+    <div class="row m-3">
 
-                color: #ff4081; 
+        <div class="col">
 
-            } 
+            <div class="d-flex justify-content-between mb-2 bg-dark rounded p-2">
 
-        } 
+                <div class="col-12 w-25">
 
- 
+                    <label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
 
-        @keyframes fadeIn { 
+                    <select class="form-select" id="inlineFormSelectPref"  >
 
-            from { 
+                        <option selected="">Choose Language...</option>
 
-                opacity: 0; 
+                        <option value="Java">Java</option>
 
-            } 
+                        <option value="Cpp">Cpp</option>
 
-            to { 
+                        <option value="Python">Python</option>
 
-                opacity: 1; 
+                        <option value="C">C</option>
 
-            } 
+                    </select>
 
-        } 
+                </div>
 
-    </style> 
+                <div class="col-12 w-25">
 
-</head> 
+                    <label class="visually-hidden" for="themeSelect">Theme</label>
 
- 
+                    <select class="form-select" id="themeSelect" >
 
-<body> 
+                        <option selected="">Choose Theme...</option>
 
-    <!-- Main content of the page (as provided) --> 
+                        <option value="dracula">Dracula</option>
 
-    <div class="row m-3"> 
+                        <option value="eclipse">Eclipse</option>
 
-        <div class="col"> 
+                        <option value="material">Material</option>
 
-            <div class="d-flex justify-content-between mb-2 bg-dark rounded p-2"> 
+                        <option value="monokai">Monokai</option>
 
-                <div class="col-12 w-25"> 
+                    </select>
 
-                    <label class="visually-hidden" for="inlineFormSelectPref">Preference</label> 
+                </div>
 
-                    <select class="form-select" id="inlineFormSelectPref"> 
+                <div>
 
-                        <option selected="">Choose Language...</option> 
+                    <button type="button" id="run" class="btn_btn-success">Run</button>
 
-                        <option value="Java">Java</option> 
+                </div>
 
-                        <option value="Cpp">Cpp</option> 
+            </div>
 
-                        <option value="Python">Python</option> 
+            <textarea type="text" id="editor" class="form-control" aria-label="Code Editor"></textarea>
 
-                    </select> 
+        </div>
 
-                </div> 
+        <div class="col d-flex flex-column rounded px-4 custom-color" >
+            <div class="h-50">
+                <label for="Input" class="styled">Input</label>
+                <textarea id="input" class="styled-textarea form-control h-75" aria-label="Input"
+                    style="background-color: #FFFFFF"></textarea>
+            </div>
 
-                <div class="col-12 w-25"> 
+            <div class="h-50">
+                <label for="Output" class="styled">Output</label>
+                <textarea id="output" class="styled-textarea form-control h-75" aria-label="Output"
+                    style="background-color:  #FFFFFF"></textarea>
+            </div>
+        </div>
 
-                    <label class="visually-hidden" for="themeSelect">Theme</label> 
+    </div>
 
-                    <select class="form-select" id="themeSelect"> 
 
-                        <option selected="">Choose Theme...</option> 
 
-                        <option value="dracula">Dracula</option> 
+    <div class="text-center mb-3">
 
-                        <option value="eclipse">Eclipse</option> 
+        <button type="button" id="share" class="styled">Share</button>
 
-                        <option value="material">Material</option> 
+    </div>
 
-                        <option value="monokai">Monokai</option> 
+    <script>
 
-                    </select> 
+        var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
 
-                </div> 
+            mode: "text/x-c++src",
 
-                <div> 
+            theme: "dracula",
 
-                    <button type="button" id="run" class="btn btn-success"><i class="bi bi-play-fill">Run</i></button> 
+            lineNumbers: true,
 
-                </div> 
+            autoCloseBrackets: true,
 
-            </div> 
+        });
 
-            <textarea type="text" id="editor" class="form-control" aria-label="Code Editor"></textarea> 
 
-        </div> 
 
-        <div class="col d-flex flex-column rounded bg-dark px-4"> 
+        var width = window.innerWidth;
 
-            <div class="h-50"> 
+        var input = document.getElementById("input");
 
-                <label for="Input" class="text-light mt-4 mb-2">Input</label> 
+        var output = document.getElementById("output");
 
-                <textarea type="text" id="input" class="form-control h-75" aria-label="Input"></textarea> 
+        var run = document.getElementById("run");
 
-            </div> 
+        var themeSelect = document.getElementById("themeSelect");
 
-            <div class="h-50"> 
 
-                <label for="Output" class="text-light mb-2">Output</label> 
 
-                <textarea type="text" id="output" class="form-control h-75" aria-label="Output"></textarea> 
+        editor.setSize(0.7 * width, "500");
 
-            </div> 
 
-        </div> 
 
-    </div> 
+        var option = document.getElementById("inlineFormSelectPref");
 
- 
+        option.addEventListener("change", function () {
 
-    <div class="text-center mb-3"> 
+            if (option.value == "Java") {
 
-        <button type="button" id="share" class="btn btn-primary">Share</button> 
+                editor.setOption("mode", "text/x-java");
 
-    </div> 
+            }
 
- 
+            else if (option.value == "Python") {
 
-    <!-- Playful Footer --> 
+                editor.setOption("mode", "text/x-python");
 
-    <footer> 
+            }
+            else if (option.value == "C") {
+                editor.setOption("mode", "text/x-csrc");
+            }
 
-        <span class="footer-text">CodePlayGround</span> 
+            else {
 
-    </footer> 
+                editor.setOption("mode", "text/x-c++src");
 
- 
+            }
 
-    <script> 
+        });
 
-        var editor = CodeMirror.fromTextArea(document.getElementById("editor"), { 
 
-            mode: "text/x-c++src", 
 
-            theme: "dracula", 
+        themeSelect.addEventListener("change", function () {
 
-            lineNumbers: true, 
+            editor.setOption("theme", themeSelect.value);
 
-            autoCloseBrackets: true, 
+        });
 
-        }); 
 
- 
 
-        var width = window.innerWidth; 
+        function captureScreenshot() {
 
-        var input = document.getElementById("input"); 
+            const screenshotName = prompt("Enter the name for your screenshot:", "screenshot");
 
-        var output = document.getElementById("output"); 
+            if (screenshotName) {
 
-        var run = document.getElementById("run"); 
+                html2canvas(document.body).then(canvas => {
 
-        var themeSelect = document.getElementById("themeSelect"); 
+                    const img = canvas.toDataURL("image/png");
 
- 
+                    const link = document.createElement('a');
 
-        editor.setSize(0.7 * width, "500"); 
+                    link.href = img;
 
- 
+                    link.download = screenshotName + '.png';
 
-        var option = document.getElementById("inlineFormSelectPref"); 
+                    link.click();
 
-        option.addEventListener("change", function () { 
+                });
 
-            if (option.value == "Java") { 
+            }
 
-                editor.setOption("mode", "text/x-java"); 
+        }
 
-            } 
 
-            else if (option.value == "Python") { 
 
-                editor.setOption("mode", "text/x-python"); 
+        document.getElementById("share").addEventListener("click", function () {
 
-            } 
+            const option = prompt("Choose an option: 'screenshot' or 'pdf'");
 
-            else { 
+            if (option === 'screenshot') {
 
-                editor.setOption("mode", "text/x-c++src"); 
+                captureScreenshot();
 
-            } 
+            } else if (option === 'pdf') {
 
-        }); 
+                saveAsPDF();
 
- 
+            } else {
 
-        themeSelect.addEventListener("change", function () { 
+                alert("Invalid option! Please choose either 'screenshot' or 'pdf'.");
 
-            editor.setOption("theme", themeSelect.value); 
+            }
 
-        }); 
+        });
 
- 
 
-        function captureScreenshot() { 
 
-            const screenshotName = prompt("Enter the name for your screenshot:", "screenshot"); 
 
-            if (screenshotName) { 
 
-                html2canvas(document.body).then(canvas => { 
 
-                    const img = canvas.toDataURL("image/png"); 
 
-                    const link = document.createElement('a'); 
+        function saveAsPDF() {
 
-                    link.href = img; 
+            const pdfName = prompt("Enter the name for your PDF:", "document");
 
-                    link.download = screenshotName + '.png'; 
+            if (pdfName) {
 
-                    link.click(); 
+                html2canvas(document.body).then(canvas => {
 
-                }); 
+                    const imgData = canvas.toDataURL("image/png");
 
-            } 
+                    const { jsPDF } = window.jspdf;
 
-        } 
+                    const pdf = new jsPDF('l', 'mm', 'a4');
 
- 
+                    pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);  // 210mm width and 297mm height for A4 size 
 
-        document.getElementById("share").addEventListener("click", function () { 
+                    pdf.save(pdfName + '.pdf');
 
-    const option = prompt("Choose an option: 'screenshot' or 'pdf'"); 
+                });
 
-    if (option === 'screenshot') { 
+            }
 
-        captureScreenshot(); 
+        }
 
-    } else if (option === 'pdf') { 
 
-        saveAsPDF(); 
 
-    } else { 
 
-        alert("Invalid option! Please choose either 'screenshot' or 'pdf'."); 
 
-    } 
+        run.addEventListener("click", async function () {
 
-}); 
+            const code = {
 
- 
+                code: editor.getValue(),
 
- 
+                input: input.value,
 
- 
+                lang: option.value
 
-function saveAsPDF() { 
+            };
 
-    const pdfName = prompt("Enter the name for your PDF:", "document"); 
+            console.log(code);
 
-    if (pdfName) { 
+            const oData = await fetch("http://localhost:3000/compile", {
 
-        html2canvas(document.body).then(canvas => { 
+                method: "POST",
 
-            const imgData = canvas.toDataURL("image/png"); 
+                headers: {
 
-            const { jsPDF } = window.jspdf; 
+                    "Content-Type": "application/json"
 
-            const pdf = new jsPDF('p', 'mm', 'a4'); 
+                },
 
-            pdf.addImage(imgData, 'PNG', 0, 0, 210,297 );  // 210mm width and 297mm height for A4 size 
+                body: JSON.stringify(code)
 
-            pdf.save(pdfName + '.pdf'); 
+            });
 
-        }); 
+            const d = await oData.json();
 
-    } 
+            output.value = d.output;
 
-} 
+        });
 
- 
+    </script>
 
- 
+</body>
 
-        run.addEventListener("click", async function () { 
 
-            const code = { 
 
-                code: editor.getValue(), 
-
-                input: input.value, 
-
-                lang: option.value 
-
-            }; 
-
-            console.log(code); 
-
-            const oData = await fetch("http://localhost:3000/compile", { 
-
-                method: "POST", 
-
-                headers: { 
-
-                    "Content-Type": "application/json" 
-
-                }, 
-
-                body: JSON.stringify(code) 
-
-            }); 
-
-            const d = await oData.json(); 
-
-            output.value = d.output; 
-
-        }); 
-
-    </script> 
-
-</body> 
-
- 
-
-</html> 
+</html>

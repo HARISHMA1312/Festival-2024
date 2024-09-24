@@ -7,7 +7,7 @@ const port = 3000;
 
 app.use(bodyP.json());
 
-// Serve your CodeMirror and static files
+
 app.use("/codemirror/codemirror-5.65.17", express.static("E:/Festival_2024/codemirror/codemirror-5.65.17"));
 
 app.get("/", function (req, res) {
@@ -22,7 +22,8 @@ app.post("/compile", async function (req, res) {
     const languageMap = {
         "Cpp": "cpp",
         "Java": "java",
-        "Python": "python3"
+        "Python": "python3",
+         "C": "c"
     };
 
     const selectedLanguage = languageMap[lang];
@@ -56,6 +57,8 @@ app.post("/compile", async function (req, res) {
         res.status(500).json({ error: "Failed to compile and run the code" });
     }
 });
+
+
 
 // Start the server
 app.listen(port, () => {
